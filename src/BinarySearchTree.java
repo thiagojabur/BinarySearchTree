@@ -12,9 +12,9 @@ public class BinarySearchTree {
 	
 	//para ser recursivo
 	private void insert(int value, Node root) {
-		//tem que ter uma condição de parada
+		//tem que ter uma condiÃ§Ã£o de parada
 		//chegar na folha 
-		//criando um novo nó
+		//criando um novo nÃ³
 		
 		if (root.getValue() == value) return;
 		
@@ -32,13 +32,33 @@ public class BinarySearchTree {
 			return;
 	    }
 		
-		//chamar a função ela mesma com parametros diferentes
+		//chamar a funÃ§Ã£o ela mesma com parametros diferentes
 		if (value < root.getValue()) 
 			insert(value, root.getNodeLeft());
 		else 
 			insert(value, root.getNodeRight());
 		
 	}
+	
+	//chamada
+		public boolean search(int value) {
+			return search(value, root);
+		}
+	
+	//para ser recursivo
+		private boolean search(int value, Node root) {
+	
+			if (root==null) return false;
+			if (root.getValue() == value) return true;
+			
+			//chamar a funÃ§Ã£o ela mesma 
+			if (value < root.getValue()) 
+				return search(value, root.getNodeLeft());
+			else 
+				return search(value, root.getNodeRight());
+			
+		}
+
 
 	public Node getRoot() {
 		return root;
@@ -48,10 +68,10 @@ public class BinarySearchTree {
 		return isStrictBinaryTree(root);
 	}
 	private boolean isStrictBinaryTree(Node v) {
-		if (v == null) //condição de saida, percorreu a arvore toda e não achou filho único
+		if (v == null) //condiÃ§Ã£o de saida, percorreu a arvore toda e nÃ£o achou filho Ãºnico
 			return true;
 		
-		//se achou filho único, ou seja, só um lado é null 
+		//se achou filho Ãºnico, ou seja, sÃ³ um lado Ã© null 
 		if ((v.getNodeLeft()== null && v.getNodeRight() != null) 
 			||
 			(v.getNodeLeft() != null && v.getNodeRight() == null)) {
@@ -94,7 +114,7 @@ public class BinarySearchTree {
 	}
 	
 	private void preOrderPrint(Node v) {
-		if (v == null) //condição de saida
+		if (v == null) //condiÃ§Ã£o de saida
 			return;
 		
 		//raiz primeiro
@@ -110,7 +130,7 @@ public class BinarySearchTree {
 	}
 	
 	private void inOrderPrint(Node v) {
-		if (v == null) //condição de saida
+		if (v == null) //condiÃ§Ã£o de saida
 			return;
 		
 		//subarvore esquerda
@@ -126,14 +146,14 @@ public class BinarySearchTree {
 	}
 	
 	private void postOrderPrint(Node v) {
-		if (v == null) //condição de saida
+		if (v == null) //condiÃ§Ã£o de saida
 			return;
 		
 		//subarvore esquerda
 		postOrderPrint(v.getNodeLeft());		
 		//subarvore direita
 		postOrderPrint(v.getNodeRight());
-		//raiz por último 
+		//raiz por Ãºltimo 
 		System.out.print(v.getValue() + " ");
 	}
 	
