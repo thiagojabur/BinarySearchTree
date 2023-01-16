@@ -9,6 +9,76 @@ public class BinarySearchTree {
 	public void insert(int value) {
 		insert(value, root);
 	}
+
+	public Node getParent(Node element) {
+			return getParent(element, root);
+	}
+
+	public Node getParent(Node element, Node root) {
+		
+		if (root==null) return null;
+		int value = element.getValue();
+		
+		if (root.getNodeLeft() != null && root.getNodeLeft().getValue() == value) return root;
+		if (root.getNodeRight() != null && root.getNodeRight().getValue() == value) return root;
+		
+		//chamar a função ela mesma 
+		if (value < root.getValue()) 
+			return getParent(element, root.getNodeLeft());
+		else 
+			return getParent(element, root.getNodeRight());
+	}
+	
+	public boolean delete(int value) {
+		Node toDelete = search(value, root);
+		if (toDelete == null) 
+			return false;
+		
+		//se não tem filho
+		if (toDelete.getNodeLeft() == null && toDelete.getNodeRight() == null) {
+			System.out.println("não tem filho");
+			
+			if (getParent(toDelete).getValue() < value) {
+				//o elemento a ser excluido é o  filho da direita
+				getParent(toDelete).setNodeRight(null);
+			} else
+				getParent(toDelete).setNodeLeft(null);
+			
+			
+		}
+		else if (toDelete.getNodeLeft() != null && toDelete.getNodeRight() == null ||
+			     toDelete.getNodeLeft() == null && toDelete.getNodeRight() != null	) {
+			System.out.println("tem 1 filho");
+			Node filho;
+			
+			if (toDelete.getNodeLeft() != null) 
+				filho = toDelete.getNodeLeft();
+			else 
+				filho = toDelete.getNodeRight();
+			
+			System.out.println("filho " + filho.getValue());
+			
+			//descobrir se o toDelete é um filho da esquerda ou da direita
+			
+			if (toDelete.getValue() > getParent(toDelete).getValue()) {
+				//toDelete é um filho da direita
+				//ligar pai no filho
+				getParent(toDelete).setNodeRight(filho);
+			} else {
+				//toDelete é um filho da esquerda
+				getParent(toDelete).setNodeLeft(filho);
+			}
+			
+			
+			
+			
+		}	
+		else if (toDelete.getNodeLeft() != null && toDelete.getNodeRight() != null ) {
+			System.out.println("tem 2 filhos");
+		}
+		
+		return true;
+	}
 	
 	//para ser recursivo
 	private void insert(int value, Node root) {
@@ -42,14 +112,16 @@ public class BinarySearchTree {
 	
 	//chamada
 		public boolean search(int value) {
-			return search(value, root);
+			return  search(value, root) != null;
 		}
 	
-	//para ser recursivo
-		private boolean search(int value, Node root) {
+	    
+		
+		//para ser recursivo
+		private Node search(int value, Node root) {
 	
-			if (root==null) return false;
-			if (root.getValue() == value) return true;
+			if (root==null) return null;
+			if (root.getValue() == value) return root;
 			
 			//chamar a função ela mesma 
 			if (value < root.getValue()) 
@@ -59,6 +131,31 @@ public class BinarySearchTree {
 			
 		}
 
+		public int getSuccessor(int value) {
+			Node node = search(value, root);
+			
+			if (getSuccessor(node) == null) return value;
+			return getSuccessor(node).getValue();
+		}
+		
+		private Node getSuccessor(Node element) {
+			  return getSuccessor(element, root);
+		}
+		
+		private Node getSuccessor(Node element, Node root) {
+			if (element.getNodeRight() != null) {
+		        return findMostLeft(element.getNodeRight());
+		    } 
+			return null;		   
+		}
+		
+		private Node findMostLeft(Node node) {
+		    if (node.getNodeLeft() == null) {
+		        return node;
+		    } else {
+		        return findMostLeft(node.getNodeLeft());
+		    }
+		}	
 
 	public Node getRoot() {
 		return root;
