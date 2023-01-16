@@ -29,6 +29,15 @@ public class BinarySearchTree {
 			return getParent(element, root.getNodeRight());
 	}
 	
+	private int getChildrenNumber(Node node) {
+		if (node.getNodeLeft() == null && node.getNodeRight() == null) 
+			return 0;
+		else if (node.getNodeLeft() != null && node.getNodeRight() == null ||
+				 node.getNodeLeft() == null && node.getNodeRight() != null	) 
+			 return 1;
+		return 2;
+	}
+	
 	public boolean delete(int value) {
 		Node toDelete = search(value, root);
 		if (toDelete == null) 
@@ -73,8 +82,31 @@ public class BinarySearchTree {
 			
 			
 		}	
-		else if (toDelete.getNodeLeft() != null && toDelete.getNodeRight() != null ) {
+		else if (getChildrenNumber(toDelete) == 2) {
 			System.out.println("tem 2 filhos");
+	
+			//encontrando o sucessor do toDelete
+			
+			Node successor = getSuccessor(toDelete);
+			
+			if (getChildrenNumber(successor) < 2) {
+				//trocar o sucessor pelo toDelete
+				getParent(successor).setNodeLeft(null);
+				getParent(toDelete).setNodeRight(successor); 
+				
+				//para não ligar nele mesmo 
+				if (toDelete.getNodeRight() != successor ) {
+					successor.setNodeRight(toDelete.getNodeRight());
+					toDelete.setNodeRight(null);
+					
+				}
+				
+				toDelete.setNodeRight(null); 
+
+				successor.setNodeLeft(toDelete.getNodeLeft());
+                toDelete.setNodeLeft(null);
+			}
+				
 		}
 		
 		return true;
