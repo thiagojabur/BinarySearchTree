@@ -3,14 +3,13 @@ public class Principal {
 	public static void main(String[] args) {
 
 		
-		BinarySearchTree arvoreBinariaTeste = new BinarySearchTree(4);
-		arvoreBinariaTeste.insert(3);
+		BinarySearchTree arvoreBinariaTeste = new BinarySearchTree(3);
 		arvoreBinariaTeste.insert(1);
 		arvoreBinariaTeste.insert(14);
-		arvoreBinariaTeste.insert(3);
 		arvoreBinariaTeste.insert(10);
 		arvoreBinariaTeste.insert(18);
-		arvoreBinariaTeste.insert(11);
+		arvoreBinariaTeste.insert(9);
+		arvoreBinariaTeste.insert(19);
 		
 		System.out.println("Grau da Raiz: " +  arvoreBinariaTeste.getRoot().length());
 		System.out.print("Pré ordem: ");
@@ -30,11 +29,15 @@ public class Principal {
 
 		System.out.println("Quantidade máxima de níveis (profundidade): ");
 		System.out.println(arvoreBinariaTeste.findDepth());
-		int buscado = 8;
+		int buscado = 19;
 		System.out.println("Buscou o " + buscado + ": " + 
 		  arvoreBinariaTeste.search(buscado));
 		
-		
+		System.out.println(arvoreBinariaTeste.getSuccessor(18));
+
+		System.out.println(arvoreBinariaTeste.delete(18));
+		System.out.print("Em ordem: ");
+		arvoreBinariaTeste.inOrderPrint();	
 	}
 
 }
