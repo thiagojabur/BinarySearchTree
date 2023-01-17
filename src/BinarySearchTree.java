@@ -45,7 +45,12 @@ public class BinarySearchTree {
 		
 		//se não tem filho
 		if (toDelete.getNodeLeft() == null && toDelete.getNodeRight() == null) {
-			System.out.println("não tem filho");
+			if (getParent(toDelete) == null) {
+				//é raiz
+				root = null;
+				return true;
+			}
+				
 			
 			if (getParent(toDelete).getValue() < value) {
 				//o elemento a ser excluido é o  filho da direita
@@ -67,6 +72,12 @@ public class BinarySearchTree {
 			
 			System.out.println("filho " + filho.getValue());
 			
+			if (getParent(toDelete) == null) {
+				//é raiz
+				root = filho;
+				return true;
+			}
+			
 			//descobrir se o toDelete é um filho da esquerda ou da direita
 			
 			if (toDelete.getValue() > getParent(toDelete).getValue()) {
@@ -78,9 +89,6 @@ public class BinarySearchTree {
 				getParent(toDelete).setNodeLeft(filho);
 			}
 			
-			
-			
-			
 		}	
 		else if (getChildrenNumber(toDelete) == 2) {
 			System.out.println("tem 2 filhos");
@@ -88,11 +96,31 @@ public class BinarySearchTree {
 			//encontrando o sucessor do toDelete
 			
 			Node successor = getSuccessor(toDelete);
+		
 			
 			if (getChildrenNumber(successor) < 2) {
+				
 				//trocar o sucessor pelo toDelete
+				successor.setNodeLeft(toDelete.getNodeLeft());
 				getParent(successor).setNodeLeft(null);
-				getParent(toDelete).setNodeRight(successor); 
+				
+				if (getParent(toDelete) == null) {
+					//é raiz
+					if (toDelete.getNodeRight().getValue() != successor.getValue()) {
+						successor.setNodeRight(toDelete.getNodeRight());
+					}
+					root = successor;
+					return true;
+				}
+				
+				
+				
+				if (getParent(toDelete).getValue() < successor.getValue()) {
+					getParent(toDelete).setNodeRight(successor); 
+				}
+				else {
+					getParent(toDelete).setNodeLeft(successor); 
+				}
 				
 				//para não ligar nele mesmo 
 				if (toDelete.getNodeRight() != successor ) {
@@ -103,7 +131,7 @@ public class BinarySearchTree {
 				
 				toDelete.setNodeRight(null); 
 
-				successor.setNodeLeft(toDelete.getNodeLeft());
+				
                 toDelete.setNodeLeft(null);
 			}
 				
@@ -285,6 +313,4 @@ public class BinarySearchTree {
 		//raiz por último 
 		System.out.print(v.getValue() + " ");
 	}
-	
-	
 }
