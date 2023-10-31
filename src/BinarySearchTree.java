@@ -22,7 +22,7 @@ public class BinarySearchTree {
 		if (root.getNodeLeft() != null && root.getNodeLeft().getValue() == value) return root;
 		if (root.getNodeRight() != null && root.getNodeRight().getValue() == value) return root;
 		
-		//chamar a funÃ§Ã£o ela mesma 
+		//chamar a função ela mesma 
 		if (value < root.getValue()) 
 			return getParent(element, root.getNodeLeft());
 		else 
@@ -39,21 +39,21 @@ public class BinarySearchTree {
 	}
 	
 	public boolean delete(int value) {
+		
 		Node toDelete = search(value, root);
 		if (toDelete == null) 
 			return false;
 		
-		//se nÃ£o tem filho
+		//se não tem filho
 		if (toDelete.getNodeLeft() == null && toDelete.getNodeRight() == null) {
 			if (getParent(toDelete) == null) {
-				//Ã© raiz
+				//é raiz
 				root = null;
 				return true;
 			}
 				
-			
 			if (getParent(toDelete).getValue() < value) {
-				//o elemento a ser excluido Ã© o  filho da direita
+				//o elemento a ser excluido é o  filho da direita
 				getParent(toDelete).setNodeRight(null);
 			} else
 				getParent(toDelete).setNodeLeft(null);
@@ -73,19 +73,19 @@ public class BinarySearchTree {
 			System.out.println("filho " + filho.getValue());
 			
 			if (getParent(toDelete) == null) {
-				//Ã© raiz
+				//é raiz
 				root = filho;
 				return true;
 			}
 			
-			//descobrir se o toDelete Ã© um filho da esquerda ou da direita
+			//descobrir se o toDelete é um filho da esquerda ou da direita
 			
 			if (toDelete.getValue() > getParent(toDelete).getValue()) {
-				//toDelete Ã© um filho da direita
+				//toDelete é um filho da direita
 				//ligar pai no filho
 				getParent(toDelete).setNodeRight(filho);
 			} else {
-				//toDelete Ã© um filho da esquerda
+				//toDelete é um filho da esquerda
 				getParent(toDelete).setNodeLeft(filho);
 			}
 			
@@ -96,7 +96,7 @@ public class BinarySearchTree {
 			//encontrando o sucessor do toDelete
 			
 			Node successor = getSuccessor(toDelete);
-		
+			
 			
 			if (getChildrenNumber(successor) < 2) {
 				
@@ -105,14 +105,16 @@ public class BinarySearchTree {
 				getParent(successor).setNodeLeft(null);
 				
 				if (getParent(toDelete) == null) {
-					//Ã© raiz
+					//é raiz
 					if (toDelete.getNodeRight().getValue() != successor.getValue()) {
+						toDelete.getNodeRight().setNodeLeft(successor.getNodeRight());
 						successor.setNodeRight(toDelete.getNodeRight());
 					}
 					root = successor;
+					
 					return true;
+					
 				}
-				
 				
 				
 				if (getParent(toDelete).getValue() < successor.getValue()) {
@@ -122,7 +124,9 @@ public class BinarySearchTree {
 					getParent(toDelete).setNodeLeft(successor); 
 				}
 				
-				//para nÃ£o ligar nele mesmo 
+				
+				
+				//para não ligar nele mesmo 
 				if (toDelete.getNodeRight() != successor ) {
 					successor.setNodeRight(toDelete.getNodeRight());
 					toDelete.setNodeRight(null);
@@ -142,9 +146,9 @@ public class BinarySearchTree {
 	
 	//para ser recursivo
 	private void insert(int value, Node root) {
-		//tem que ter uma condiÃ§Ã£o de parada
+		//tem que ter uma condição de parada
 		//chegar na folha 
-		//criando um novo nÃ³
+		//criando um novo nó
 		
 		if (root.getValue() == value) return;
 		
@@ -162,7 +166,7 @@ public class BinarySearchTree {
 			return;
 	    }
 		
-		//chamar a funÃ§Ã£o ela mesma com parametros diferentes
+		//chamar a função ela mesma com parametros diferentes
 		if (value < root.getValue()) 
 			insert(value, root.getNodeLeft());
 		else 
@@ -183,7 +187,7 @@ public class BinarySearchTree {
 			if (root==null) return null;
 			if (root.getValue() == value) return root;
 			
-			//chamar a funÃ§Ã£o ela mesma 
+			//chamar a função ela mesma 
 			if (value < root.getValue()) 
 				return search(value, root.getNodeLeft());
 			else 
@@ -225,10 +229,10 @@ public class BinarySearchTree {
 		return isStrictBinaryTree(root);
 	}
 	private boolean isStrictBinaryTree(Node v) {
-		if (v == null) //condiÃ§Ã£o de saida, percorreu a arvore toda e nÃ£o achou filho Ãºnico
+		if (v == null) //condição de saida, percorreu a arvore toda e não achou filho único
 			return true;
 		
-		//se achou filho Ãºnico, ou seja, sÃ³ um lado Ã© null 
+		//se achou filho único, ou seja, só um lado é null 
 		if ((v.getNodeLeft()== null && v.getNodeRight() != null) 
 			||
 			(v.getNodeLeft() != null && v.getNodeRight() == null)) {
@@ -244,7 +248,7 @@ public class BinarySearchTree {
 		return findNodeAmount(root); 
 	}
 	
-	//we need a method to find the amount of nodes in the tree
+	//encontra a quantidade de nós da árvore 
 	private int findNodeAmount (Node tree) {
 	    if (tree == null) {
 	        return 0;
@@ -256,7 +260,7 @@ public class BinarySearchTree {
 	public int findDepth () {
 		return findDepth(root); 
 	}
-	//we'll need a method to find the amount of depths in the tree
+	//encontra profundidade da árvore
 	public int findDepth (Node tree) {
 	    if (tree == null) {
 	        return 0;
@@ -271,7 +275,7 @@ public class BinarySearchTree {
 	}
 	
 	private void preOrderPrint(Node v) {
-		if (v == null) //condiÃ§Ã£o de saida
+		if (v == null) //condição de saida
 			return;
 		
 		//raiz primeiro
@@ -287,7 +291,7 @@ public class BinarySearchTree {
 	}
 	
 	private void inOrderPrint(Node v) {
-		if (v == null) //condiÃ§Ã£o de saida
+		if (v == null) //condição de saida
 			return;
 		
 		//subarvore esquerda
@@ -303,14 +307,14 @@ public class BinarySearchTree {
 	}
 	
 	private void postOrderPrint(Node v) {
-		if (v == null) //condiÃ§Ã£o de saida
+		if (v == null) //condição de saida
 			return;
 		
 		//subarvore esquerda
 		postOrderPrint(v.getNodeLeft());		
 		//subarvore direita
 		postOrderPrint(v.getNodeRight());
-		//raiz por Ãºltimo 
+		//raiz por último 
 		System.out.print(v.getValue() + " ");
 	}
 }
